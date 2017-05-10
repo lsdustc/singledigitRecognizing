@@ -30,12 +30,12 @@ x = tf.placeholder(tf.float32,shape= [None,N_frames,nummfcc,1])
 digits = tf.placeholder(tf.int64,shape=[None,])
  
 network = tl.layers.InputLayer(x,name = 'MfccGraphInput')
-network = tl.layers.Conv2d(network, n_filter=32, filter_size=(5, 5), strides=(1, 1),
+network = tl.layers.Conv2d(network, n_filter=48, filter_size=(5, 5), strides=(1, 1),
             act=tf.nn.relu, padding='SAME', name='cnn1')
 network = tl.layers.MaxPool2d(network, filter_size=(2, 2), strides=(2, 2),
             padding='SAME', name='pool1')
 network = tl.layers.BatchNormLayer(network,name = 'BNLayer1')
-network = tl.layers.Conv2d(network, n_filter=64, filter_size=(5, 5), strides=(1, 1),
+network = tl.layers.Conv2d(network, n_filter=96, filter_size=(5, 5), strides=(1, 1),
             act=tf.nn.relu, padding='SAME', name='cnn2')
 network = tl.layers.MaxPool2d(network, filter_size=(2, 2), strides=(2, 2),
             padding='SAME', name='pool2')
@@ -63,7 +63,7 @@ network.print_layers()
 
 # Train the network, we recommend to use tl.iterate.minibatches()
 tl.utils.fit(sess, network, train_op, cost, X, Y, x, digits,
-            acc=Acc, batch_size=44, n_epoch=500, print_freq=1,
+            acc=Acc, batch_size=22, n_epoch=500, print_freq=1,
             X_val=TestX, y_val=TestY, eval_train=False)
 
 # Evaluation
