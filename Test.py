@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import tensorflow as tf
-import tensorflow as tl
+import tensorlayer as tl
 
 data = tl.files.load_npy_to_any(name = 'data.npy')
 TestX= data['TestX']
@@ -34,11 +34,8 @@ network = tl.layers.DenseLayer(network, n_units=10,act = tf.identity,name='outpu
 out = network.outputs
 cost = tl.cost.cross_entropy(out,digits,name = 'cost')
 Acc = tf.reduce_mean(tf.cast(tf.equal(tf.arg_max(out,1),digits), tf.float32))
-train_params = network.all_params
-train_op = tf.train.AdamOptimizer(learning_rate=0.0001, beta1=0.9, beta2=0.999,
-                            epsilon=1e-08, use_locking=False).minimize(cost, var_list=train_params)
 sess.run(tf.initialize_all_variables())
-load_params = tl.files.load_npz(name='model_test.npz')
+load_params = tl.files.load_npz(name='modelAcc93.npz')
 tl.files.assign_params(sess, load_params, network)
 # Evaluation
 tl.utils.test(sess, network, Acc, TestX, TestY, x, digits, batch_size=None, cost=cost)
