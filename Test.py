@@ -35,7 +35,7 @@ out = network.outputs
 cost = tl.cost.cross_entropy(out,digits,name = 'cost')
 Acc = tf.reduce_mean(tf.cast(tf.equal(tf.arg_max(out,1),digits), tf.float32))
 sess.run(tf.global_variables_initializer())
-load_params = tl.files.load_npz(name='modelAcc968.npz')
+load_params = tl.files.load_npz(name='model.npz')
 tl.files.assign_params(sess, load_params, network)
 # Evaluation
 tl.utils.test(sess, network, Acc, TestX, TestY, x, digits, batch_size=None, cost=cost)

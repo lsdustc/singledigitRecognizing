@@ -63,7 +63,7 @@ network.print_layers()
 
 # Train the network, we recommend to use tl.iterate.minibatches()
 tl.utils.fit(sess, network, train_op, cost, X, Y, x, digits,
-            acc=Acc, batch_size=22, n_epoch=500, print_freq=1,
+            acc=Acc, batch_size=22, n_epoch=100, print_freq=1,
             X_val=TestX, y_val=TestY, eval_train=False)
 
 
