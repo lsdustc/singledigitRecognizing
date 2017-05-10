@@ -1,26 +1,9 @@
-
 # -*- coding: utf-8 -*-
-"""
-Created on Fri Apr 14 15:30:10 2017
 
-@author: Shidong Li
-"""
 import tensorflow as tf
-import tensorlayer as tl
-import time
-ISOTIMEFORMAT='%Y-%m-%d-%X'
-# Data loading and preprocessing
-#import data_process as data
-#from data_process import nummfcc
-#from data_process import N_frames
-#X,Y,TestX,TestY= data.mfccset()
-#X = X.reshape([-1, N_frames, nummfcc, 1])
-#TestX = TestX.reshape([-1, N_frames, nummfcc, 1])
-#  Use load data from npy instead
-## Building convolutional network
+import tensorflow as tl
+
 data = tl.files.load_npy_to_any(name = 'data.npy')
-X = data['X']
-Y = data['Y']
 TestX= data['TestX']
 TestY= data['TestY']
 N_frames= data['N_frames']
@@ -54,21 +37,8 @@ Acc = tf.reduce_mean(tf.cast(tf.equal(tf.arg_max(out,1),digits), tf.float32))
 train_params = network.all_params
 train_op = tf.train.AdamOptimizer(learning_rate=0.0001, beta1=0.9, beta2=0.999,
                             epsilon=1e-08, use_locking=False).minimize(cost, var_list=train_params)
-
-# Initialize all variables in the session
-tl.layers.initialize_global_variables(sess)
-# Print network information
-network.print_params()
-network.print_layers()
-
-# Train the network, we recommend to use tl.iterate.minibatches()
-tl.utils.fit(sess, network, train_op, cost, X, Y, x, digits,
-            acc=Acc, batch_size=22, n_epoch=500, print_freq=1,
-            X_val=TestX, y_val=TestY, eval_train=False)
-
-
-
-# Save the network to .npz file
-tl.files.save_npz(network.all_params , name='model.npz')
-
-sess.close()
+sess.run(tf.initialize_all_variables())
+load_params = tl.files.load_npz(name='model_test.npz')
+tl.files.assign_params(sess, load_params, network)
+# Evaluation
+tl.utils.test(sess, network, Acc, TestX, TestY, x, digits, batch_size=None, cost=cost)
