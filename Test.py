@@ -34,8 +34,8 @@ network = tl.layers.DenseLayer(network, n_units=10,act = tf.identity,name='outpu
 out = network.outputs
 cost = tl.cost.cross_entropy(out,digits,name = 'cost')
 Acc = tf.reduce_mean(tf.cast(tf.equal(tf.arg_max(out,1),digits), tf.float32))
-sess.run(tf.initialize_all_variables())
-load_params = tl.files.load_npz(name='modelAcc93.npz')
+sess.run(tf.global_variables_initializer())
+load_params = tl.files.load_npz(name='modelAcc968.npz')
 tl.files.assign_params(sess, load_params, network)
 # Evaluation
 tl.utils.test(sess, network, Acc, TestX, TestY, x, digits, batch_size=None, cost=cost)

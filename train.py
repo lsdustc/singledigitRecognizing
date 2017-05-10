@@ -69,6 +69,6 @@ tl.utils.fit(sess, network, train_op, cost, X, Y, x, digits,
 
 
 # Save the network to .npz file
-tl.files.save_npz(network.all_params , name='model.npz')
+tl.files.save_npz(network.all_params , name='model'+'.npz')
 
 sess.close()

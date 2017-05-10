@@ -84,6 +84,8 @@ def plotMfcc(mfccs):
 
 def savedata():
     X,Y,TestX,TestY =mfccset()
+    X = X.reshape([-1, N_frames, nummfcc, 1])
+    TestX = TestX.reshape([-1, N_frames, nummfcc, 1])
     tl.files.save_any_to_npy({'TestX':TestX,'TestY':TestY,'X':X,'Y':Y,'nummfcc':nummfcc,'N_frames':N_frames},'data.npy')
 
 if __name__ == "__main__":
