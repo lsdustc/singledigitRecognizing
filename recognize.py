@@ -32,12 +32,12 @@ digits = tf.placeholder(tf.int64,shape=[None,])
 network = tl.layers.InputLayer(x,name = 'MfccGraphInput')
 network = tl.layers.Conv2d(network, n_filter=48, filter_size=(5, 5), strides=(1, 1),
             act=tf.nn.relu, padding='SAME', name='cnn1')
-network = tl.layers.MaxPool2d(network, filter_size=(2, 2), strides=(2, 2),
+network = tl.layers.MaxPool2d(network, filter_size=(3, 3), strides=(3, 3),
             padding='SAME', name='pool1')
 network = tl.layers.BatchNormLayer(network,name = 'BNLayer1')
 network = tl.layers.Conv2d(network, n_filter=96, filter_size=(5, 5), strides=(1, 1),
             act=tf.nn.relu, padding='SAME', name='cnn2')
-network = tl.layers.MaxPool2d(network, filter_size=(2, 2), strides=(2, 2),
+network = tl.layers.MaxPool2d(network, filter_size=(3, 3), strides=(3, 3),
             padding='SAME', name='pool2')
 network = tl.layers.BatchNormLayer(network,name = 'BNLayer2')
 ## end of conv
