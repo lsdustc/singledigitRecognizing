@@ -8,7 +8,6 @@ Created on Fri Apr 14 15:30:10 2017
 import tensorflow as tf
 import tensorlayer as tl
 import time
-ISOTIMEFORMAT='%Y-%m-%d-%X'
 # Data loading and preprocessing
 #import data_process as data
 #from data_process import nummfcc
@@ -27,17 +26,16 @@ N_frames= data['N_frames']
 nummfcc= data['nummfcc']
 sess = tf.InteractiveSession()
 x = tf.placeholder(tf.float32,shape= [None,N_frames,nummfcc,1])
-digits = tf.placeholder(tf.int64,shape=[None,])
- 
+digits = tf.placeholder(tf.int64,shape=[None,]) 
 network = tl.layers.InputLayer(x,name = 'MfccGraphInput')
-network = tl.layers.Conv2d(network, n_filter=48, filter_size=(5, 5), strides=(1, 1),
+network = tl.layers.Conv2d(network, n_filter=32, filter_size=(5, 5), strides=(1, 1),
             act=tf.nn.relu, padding='SAME', name='cnn1')
-network = tl.layers.MaxPool2d(network, filter_size=(3, 3), strides=(3, 3),
+network = tl.layers.MaxPool2d(network, filter_size=(2, 2), strides=(2, 2),
             padding='SAME', name='pool1')
 network = tl.layers.BatchNormLayer(network,name = 'BNLayer1')
-network = tl.layers.Conv2d(network, n_filter=96, filter_size=(5, 5), strides=(1, 1),
+network = tl.layers.Conv2d(network, n_filter=64, filter_size=(5, 5), strides=(1, 1),
             act=tf.nn.relu, padding='SAME', name='cnn2')
-network = tl.layers.MaxPool2d(network, filter_size=(3, 3), strides=(3, 3),
+network = tl.layers.MaxPool2d(network, filter_size=(2, 2), strides=(2, 2),
             padding='SAME', name='pool2')
 network = tl.layers.BatchNormLayer(network,name = 'BNLayer2')
 ## end of conv
@@ -45,7 +43,6 @@ network = tl.layers.FlattenLayer(network, name='flatten')
 network = tl.layers.DenseLayer(network, n_units=256,act = tf.nn.relu, name='relu1')
 network = tl.layers.BatchNormLayer(network,name = 'BNLayer3')
 network = tl.layers.DenseLayer(network, n_units=64,act = tf.nn.relu, name='relu2')
-#network = tl.layers.DropoutLayer(network, keep=0.85, name='drop2')
 network = tl.layers.BatchNormLayer(network,name = 'BNLayer4')
 network = tl.layers.DenseLayer(network, n_units=10,act = tf.identity,name='output')
 out = network.outputs
@@ -69,6 +66,6 @@ tl.utils.fit(sess, network, train_op, cost, X, Y, x, digits,
 
 
 # Save the network to .npz file
-tl.files.save_npz(network.all_params , name='model'+'.npz')
+tl.files.save_npz(network.all_params , name='model'+str(int(time.time()))+'.npz')
 
 sess.close()
