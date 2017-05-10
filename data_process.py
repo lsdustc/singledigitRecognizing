@@ -61,8 +61,8 @@ def mfccset():
         else:
              sli = np.array(i)
              length=int(len(i)/(N_frames-1))
-        mfccs.append(librosa.feature.mfcc(sli,sr=8000,n_mfcc = nummfcc
-                                              ,hop_length = length))
+        mfccs.append(librosa.feature.mfcc(sli,sr=8000,n_mfcc = nummfcc,
+                                              n_fft = 512,hop_length = length))
     lib = np.array(mfccs,dtype = np.float32)
     label = np.array(label,dtype = np.float32)
     TestX = lib[2201:]
